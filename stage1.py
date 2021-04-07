@@ -13,7 +13,7 @@ def start_time():
     PATH = 'C:\Program Files (x86)\chromedriver' #directory of chromedriver for selenium
     option = webdriver.ChromeOptions()
     option.add_argument('headless')
-    driver = webdriver.Chrome(PATH,chrome_options=option)
+    driver = webdriver.Chrome(PATH,options=option)
     driver.get('https://www.nba.com/schedule')
     time.sleep(3)
     try:
@@ -39,8 +39,6 @@ def start_time():
         temp = '/html/body/div[1]/div[2]/div[3]/section/div/div[2]/div[1]/div[1]/div[2]/div[2]/div[' + str(i+1) + ']'
         game = driver.find_element_by_xpath(temp).text
         game_split = game.split('\n')
-        print(game_split[0])
-        print(i)
         if game_split[0] == 'FINAL':
             game_info = [game_split[z] for z in post_info]
         elif game_split[0] == 'FINAL/OT':
@@ -60,7 +58,7 @@ def start_time():
     driver.close()
 
     # favorite_team = input('Who is your favorite team: ').title()
-    favorite_team = 'Clippers'
+    favorite_team = 'Nets' #hard code for favorite team
     play_tonight = False
 
     for games in today_games:

@@ -4,11 +4,14 @@ import time
 import sys
 from datetime import datetime
 from pytz import timezone
+from plyer import notification
+
 
 def start_yet():
-    file1 = open('time.txt','r')
+    file1 = open('C:\\Users\\steph\\notification\\time.txt','r')
     text = file1.readlines()
     time = text[1][:-1]
+    favorite_team = text[0][:-1]
     file1.close()
 
     standard_time = datetime.strptime(time,'%H:%M')
@@ -18,11 +21,13 @@ def start_yet():
     tip_off_time = western_time
     game_start = current_time > tip_off_time
 
-    return game_start
+    return game_start, favorite_team
 
 def game_update():
     PATH = 'C:\Program Files (x86)\chromedriver'
-    driver = webdriver.Chrome(PATH)
+    option = webdriver.ChromeOptions()
+    option.add_argument('headless')
+    driver = webdriver.Chrome(PATH,options=option)
     driver.get('https://www.nba.com/schedule')
     time.sleep(3)
     try:
@@ -95,9 +100,29 @@ def todays_games(game_update):
             game_schedule.append(game)
     return game_schedule,live_games,post_games
 
-game_start = start_yet()
+game_start, favorite_team = start_yet()
 if game_start == True:
+    count += 1
     today_games = game_update()
     game_schedule,live_games,post_games = todays_games(today_games)
+    if count == 1:
+        pass
+        for games in live_games:
+            for game in games:
+                if favorite_team in game:
+                    favorite_team_game = game
+        '''Give notification that game has just tipped and intial score '''
+        notification.notify(
+            title='Game has Begun!',
+            message='The ' + favorite_team + ' game has started! The score is ' favorite_team_game[1]  \
+            + ' ' + favorite_team_game[2] + ' to ' + favorite_team_game[3] + ' ' + favorite_team_game[4],
+            app_icon='C:\\Users\\steph\\notification\\basketball.ico',  #directory of basketball notification
+            timeout=10,  # seconds
+        )
+    else:
+        pass
+        '''Give rolling scores '''
+    print(live_games)
 else:
     print('Game has not begun yet')
+    count = 0
