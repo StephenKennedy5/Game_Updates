@@ -10,7 +10,7 @@ from plyer import notification
 let person know if there team is not playing '''
 
 def start_time():
-    PATH = 'C:\Program Files (x86)\chromedriver'
+    PATH = 'C:\Program Files (x86)\chromedriver' #directory of chromedriver for selenium
     option = webdriver.ChromeOptions()
     option.add_argument('headless')
     driver = webdriver.Chrome(PATH,chrome_options=option)
@@ -89,12 +89,12 @@ def start_time():
 
 def time_file(favorite_team, tip_time, play_tonight):
     if play_tonight == True:
-        file1 = open('C:\\Users\\steph\\notification\\time.txt','w')
+        file1 = open('C:\\Users\\steph\\notification\\time.txt','w') #directory of txt file for output to be read by stage2
         file1.write(favorite_team + '\n')
         file1.write(tip_time + '\n')
         file1.close()
     else:
-        file1 = open('time.txt', 'w')
+        file1 = open('C:\\Users\\steph\\notification\\time.txt', 'w') #directory of txt file for output to be read by stage2
         file1.write('Your ' + favorite_team + ' has the night off.')
         file1.close()
 
@@ -106,13 +106,13 @@ if bool(favorite_team_game) == True:
     notification.notify(
         title='Game Day!',
         message='The ' + favorite_team + ' plays at ' + tip_time_pm + ' tonight.',
-        app_icon='C:\\Users\\steph\\notification\\basketball.ico',  # e.g. 'C:\\icon_32x32.ico'
+        app_icon='C:\\Users\\steph\\notification\\basketball.ico',  #directory of basketball notification
         timeout=10,  # seconds
     )
 else:
     notification.notify(
         title='Day Off',
         message= 'The ' + favorite_team + ' has the night off.',
-        app_icon=None,  # e.g. 'C:\\icon_32x32.ico'
+        app_icon='C:\\Users\\steph\\notification\\basketball.ico',  #directory of basketball notification
         timeout=10,  # seconds
     )
